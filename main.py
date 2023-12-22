@@ -1,5 +1,8 @@
 import json
+import easygui as eg
 
+
+fields = ["Имя пользователя", "Номер телефона"]
 
 phonebook = {"Дядя Ваня": {'phones': [8311654654, 89654515],
                            'birthday': "05.05.1990", 'email': "12@ya.ru"},
@@ -35,17 +38,21 @@ except:
                  }
 
 while True:
-    command = input("Введите команду ")
+    msg = "Выберите команду"
+    title = "Телефонный справочник"
+    choices = ["/save", "/all", "/add", "/exit"]
+
+    command = eg.choicebox(msg, title, choices)
     if (command == "/exit"):
         break
     elif command == "/save":
         save()
     elif command == "/all":
-        print("Текущий телефонный список: ")
-        print(phonebook)
+        eg.msgbox(phonebook)
     elif command == "/add":
-        name = input("Введите имя пользователя: ")
-        phone = input("Введите номера телефонов через пробел: ").split()
+        contact = eg.multenterbox("Введите данные", title, fields)
+        name = contact[0]
+        phone = contact[1].split()
         if phone != "":
             phonebook[name] = phone
         elif name != "":
@@ -53,4 +60,4 @@ while True:
         else:
             continue
     else:
-        print("Вы ввели не верную комманду!")
+        eg.msgbox("Вы ввели неверную команду!")
